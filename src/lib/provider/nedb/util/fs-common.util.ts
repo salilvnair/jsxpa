@@ -19,18 +19,22 @@ export class FsCommonUtil {
     }
   }
 
-  checkAndCreateDestinationPath(dir) {
+  checkAndCreateDestinationPath(fileDestination:string) {
+    this._forceCreateDir(fileDestination);
+  }
+
+  _forceCreateDir(dir:string) {
     if (this.fs.existsSync(dir)) {
-        return;
+      return;
+    }
+    try {
+      this.fs.mkdirSync(dir);
+    } catch (err) {
+      if(err+''.indexOf('ENOENT')){
+         this._forceCreateDir(this.path.dirname(dir)); //create parent dir
+         this._forceCreateDir(dir); //create dir
       }
-      try {
-        this.fs.mkdirSync(dir);
-      } catch (err) {
-        if (err.code==="ENOENT") {
-            this.checkAndCreateDestinationPath(this.path.dirname(dir)); //create parent dir
-            this.checkAndCreateDestinationPath(dir); //create dir
-        }
-      }
+    }
   }
 
   readFileAsJson(jsonPath) {
