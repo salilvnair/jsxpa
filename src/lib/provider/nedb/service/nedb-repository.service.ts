@@ -16,6 +16,7 @@ export abstract class NeDBRepository<T>
     this.init();
   }
   private neDB: any;
+  private config: NeDBConfig;
   private neDBConfig: NeDBConfig;
   abstract databaseName(): string;
   private init() {
@@ -72,7 +73,7 @@ export abstract class NeDBRepository<T>
   }
 
   private initNeDBConfig() {
-    this.neDBConfig = this.neDBConnectionManager.getNeDBConfig();
+    this.neDBConfig = this.neDBConnectionManager.getNeDBConfig(this.config);
   }
 
   compactDatabase() {
