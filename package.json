@@ -1,6 +1,6 @@
 {
   "name": "@salilvnair/jsxpa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Persistant API",
   "main": "public/public_api.js",
   "types": "public/public_api.d.ts",
