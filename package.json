@@ -1,0 +1,32 @@
+{
+  "name": "@salilvnair/jsxpa",
+  "version": "1.0.0",
+  "description": "React Persistant API",
+  "main": "public/public_api.js",
+  "types": "public/public_api.d.ts",
+  "scripts": {
+    "test": "node ./public/test/main.js",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salilvnair/react-httpclient.git"
+  },
+  "keywords": [
+    "jpa",
+    "react"
+  ],
+  "author": "salilvnair",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/salilvnair/jsxpa/issues"
+  },
+  "homepage": "https://github.com/salilvnair/jsxpa#readme",
+  "dependencies": {
+    "@types/node": "^11.9.5",
+    "nedb": "^1.8.0"
+  },
+  "files": [
+    "public/**/*"
+  ]
+}
