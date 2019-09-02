@@ -1,13 +1,20 @@
+import { JsxElectronUtil } from '@salilvnair/jsx-electron';
 import { NeDBConfig } from "../model/nedb-config.model";
 import * as NeDBConstant from "../constant/nedb.constant";
 import * as JsxpaConstant from "../../../constant/jsxpa.constant";
 import { FsCommonUtil } from "../util/fs-common.util";
-import * as path from "path";
-import * as nedb from "nedb";
 
 export class NeDBConnectionManager {
-  private fsCommonUtil: FsCommonUtil = new FsCommonUtil();
-  constructor() {}
+  private jsxElectronUtil:JsxElectronUtil;
+  private fsCommonUtil: FsCommonUtil;
+  private path: any;
+  private nedb: any;
+  constructor() {
+    this.jsxElectronUtil = new JsxElectronUtil();
+    this.fsCommonUtil = new FsCommonUtil(this.jsxElectronUtil);
+    this.path = this.jsxElectronUtil.remote.require('path');
+    this.nedb = this.jsxElectronUtil.remote.require('nedb');
+  }
   getInstance() {
     return this.getDefinedInstance(
       NeDBConstant.NEDB_CONFIG_DATABASE_FOLDER_NAME,
@@ -17,14 +24,14 @@ export class NeDBConnectionManager {
 
   getDefinedInstance(databaseFolderName: string, databaseFileName: string) {
 
-    var pathDetail = path.join(
+    var pathDetail =this.path.join(
       process.cwd(),
       JsxpaConstant.JSXPA_FOLDER_NAME,
       NeDBConstant.NEDB_HOME_FOLDER_NAME,
       databaseFolderName,
       databaseFileName + NeDBConstant.NEDB_DATABASE_FILENAME_EXTENSTION
     );
-    var Datastore = nedb;
+    var Datastore =this.nedb;
     var dbSourceInstance = new Datastore({
       filename: pathDetail,
       autoload: true
@@ -33,20 +40,20 @@ export class NeDBConnectionManager {
   }
 
   getInMemoryInstance() {
-    var Datastore = nedb;
+    var Datastore =this.nedb;
     var dbSourceInstance = new Datastore();
     return dbSourceInstance;
   }
 
   public getNeDBConfig(): NeDBConfig {
-    var configPathDetail = path.join(
+    var configPathDetail =this.path.join(
       process.cwd(),
       JsxpaConstant.JSXPA_FOLDER_NAME,
       NeDBConstant.NEDB_HOME_FOLDER_NAME,
       JsxpaConstant.JSXPA_SUBFOLDER_CONFIG,
       JsxpaConstant.JSXPA_PROVIDER_CONFIG_NEDB
     );
-    var basePath = path.join(
+    var basePath =this.path.join(
       process.cwd(),
       JsxpaConstant.JSXPA_FOLDER_NAME,
       NeDBConstant.NEDB_HOME_FOLDER_NAME,

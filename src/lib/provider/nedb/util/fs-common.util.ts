@@ -1,32 +1,39 @@
-import * as fs from "fs";
-import * as path from "path";
+import { JsxElectronUtil } from '@salilvnair/jsx-electron';
+
 
 export class FsCommonUtil {
-  constructor() {}
+  private jsxElectronUtil;
+  path: any;
+  fs: any;
+  constructor(jsxElectronUtil: JsxElectronUtil) {
+    this.jsxElectronUtil = jsxElectronUtil;
+    this.path = this.jsxElectronUtil.remote.require('path');
+    this.fs = this.jsxElectronUtil.remote.require('fs');
+  }
 
   writeFileIfNotExist(fileWithPath: string, contents: string) {
-    if (!fs.existsSync(fileWithPath)) {
+    if (!this.fs.existsSync(fileWithPath)) {
       var options = options || {};
       options.flag = "wx";
-      fs.writeFileSync(fileWithPath, contents, options);
+      this.fs.writeFileSync(fileWithPath, contents, options);
     }
   }
 
   checkAndCreateDestinationPath(dir) {
-    if (fs.existsSync(dir)) {
+    if (this.fs.existsSync(dir)) {
         return;
       }
       try {
-        fs.mkdirSync(dir);
+        this.fs.mkdirSync(dir);
       } catch (err) {
         if (err.code==="ENOENT") {
-            this.checkAndCreateDestinationPath(path.dirname(dir)); //create parent dir
+            this.checkAndCreateDestinationPath(this.path.dirname(dir)); //create parent dir
             this.checkAndCreateDestinationPath(dir); //create dir
         }
       }
   }
 
   readFileAsJson(jsonPath) {
-    return JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+    return JSON.parse(this.fs.readFileSync(jsonPath, "utf8"));
   }
 }
