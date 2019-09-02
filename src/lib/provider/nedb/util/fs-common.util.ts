@@ -30,7 +30,7 @@ export class FsCommonUtil {
     try {
       this.fs.mkdirSync(dir);
     } catch (err) {
-      if(err+''.indexOf('ENOENT')){
+      if((err+'').indexOf('ENOENT') > -1){
          this._forceCreateDir(this.path.dirname(dir)); //create parent dir
          this._forceCreateDir(dir); //create dir
       }
