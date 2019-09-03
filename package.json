@@ -1,12 +1,13 @@
 {
   "name": "@salilvnair/jsxpa",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "React Persistant API",
   "main": "public/public_api.js",
   "types": "public/public_api.d.ts",
   "scripts": {
     "test": "node ./public/test/main.js",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm run build && npm publish --access=public"
   },
   "repository": {
     "type": "git",
