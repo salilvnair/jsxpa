@@ -6,14 +6,16 @@ import { FsCommonUtil } from "../util/fs-common.util";
 
 export class NeDBConnectionManager {
   private fsCommonUtil: FsCommonUtil ;
-  private jsxElectronUtil:JsxElectronUtil
+  private jsxElectronUtil:JsxElectronUtil;
+  path: any;
+  fs: any;
   constructor(
      ) {
       this.jsxElectronUtil = new JsxElectronUtil();
       this.fsCommonUtil = new FsCommonUtil(this.jsxElectronUtil);
+      this.path = this.jsxElectronUtil.remote.require("path");
+      this.fs = this.jsxElectronUtil.remote.require("fs");
      }
-  path = this.jsxElectronUtil.remote.require("path");
-  fs = this.jsxElectronUtil.remote.require("fs");
   getInstance() {
     return this.getDefinedInstance(
       NeDBConstant.NEDB_CONFIG_DATABASE_FOLDER_NAME,
