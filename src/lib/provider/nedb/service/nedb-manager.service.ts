@@ -52,8 +52,7 @@ export class NeDBConnectionManager {
         databaseFileName + NeDBConstant.NEDB_DATABASE_FILENAME_EXTENSTION
       );
     }
-    var Datastore = this.jsxElectronUtil.remote.getGlobal(JsxpaConstant.NODEJS_GLOBAL_JSXPA_PROVIDER)
-      .nedb;
+    var Datastore = this.jsxElectronUtil.remote.require('nedb');
     var dbSourceInstance = new Datastore({
       filename: pathDetail,
       autoload: true
@@ -62,8 +61,7 @@ export class NeDBConnectionManager {
   }
 
   getInMemoryInstance() {
-    var Datastore = this.jsxElectronUtil.remote.getGlobal(JsxpaConstant.NODEJS_GLOBAL_JSXPA_PROVIDER)
-      .nedb;
+    var Datastore = this.jsxElectronUtil.remote.require('nedb');
     var dbSourceInstance = new Datastore();
     return dbSourceInstance;
   }
