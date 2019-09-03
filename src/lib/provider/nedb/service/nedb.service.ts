@@ -1,20 +1,47 @@
 import * as JsxpaConstant from "../../../constant/jsxpa.constant";
 import * as NeDBConstant from "../constant/nedb.constant";
-import * as path from "path";
-import * as fs from "fs";
+import { JsxElectronUtil } from '@salilvnair/jsx-electron';
+import { NeDBConfig } from '../model/nedb-config.model';
 export class NeDBService<T> {
-  constructor() {}
+  private jsxElectronUtil: JsxElectronUtil;
+  path: any;
+  fs: any;
+  private config: NeDBConfig;
+  constructor() {
+    this.jsxElectronUtil = new JsxElectronUtil();
+    this.path = this.jsxElectronUtil.remote.require("path");
+    this.fs = this.jsxElectronUtil.remote.require("fs");
+  }
   selectAllSync(databaseName: string): T[] {
     var rows: T[] = [];    
-    var configPathDetail = path.join(
-      process.cwd(),
-      JsxpaConstant.JSXPA_FOLDER_NAME,
-      NeDBConstant.NEDB_HOME_FOLDER_NAME,
-      NeDBConstant.NEDB_CONFIG_DATABASE_FOLDER_NAME,
-      databaseName + NeDBConstant.NEDB_DATABASE_FILENAME_EXTENSTION
-    );
+    let configPathDetail: string;
+    let neDBConfig = this.config; 
+    var app = this.jsxElectronUtil.remote.require("electron").app;
+    if(neDBConfig){
+      if(neDBConfig.storeInUserHome) {
+        let userHome = this.jsxElectronUtil.env().HOME || this.jsxElectronUtil.env().USERPROFILE;
+        configPathDetail = this.path.join(
+          userHome,
+          '.ngpa',
+          neDBConfig.applicationName.toLowerCase(),
+          JsxpaConstant.JSXPA_FOLDER_NAME,
+          NeDBConstant.NEDB_HOME_FOLDER_NAME,
+          NeDBConstant.NEDB_CONFIG_DATABASE_FOLDER_NAME,
+          databaseName + NeDBConstant.NEDB_DATABASE_FILENAME_EXTENSTION
+        );
+      }
+    }
+    else {
+      configPathDetail = this.path.join(
+        app.getAppPath(),
+        JsxpaConstant.JSXPA_FOLDER_NAME,
+        NeDBConstant.NEDB_HOME_FOLDER_NAME,
+        NeDBConstant.NEDB_CONFIG_DATABASE_FOLDER_NAME,
+        databaseName + NeDBConstant.NEDB_DATABASE_FILENAME_EXTENSTION
+      );
+    }
 
-    var data = fs.readFileSync(configPathDetail, "utf8");
+    var data = this.fs.readFileSync(configPathDetail, "utf8");
     if (data == "" || data == null) {
       return rows;
     }
