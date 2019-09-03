@@ -1,6 +1,6 @@
 {
   "name": "@salilvnair/jsxpa",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "React Persistant API",
   "main": "public/public_api.js",
   "types": "public/public_api.d.ts",
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/salilvnair/jsxpa#readme",
   "dependencies": {
-    "@salilvnair/jsx-electron": "^1.0.0",
+    "@salilvnair/jsx-electron": "^1.0.1",
     "@types/node": "^11.9.5",
     "electron": "^6.0.7",
     "nedb": "^1.8.0"
